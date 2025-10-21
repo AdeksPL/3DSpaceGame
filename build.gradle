@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("it.unimi.dsi:fastutil:8.5.13")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+shadowJar {
+    manifest {
+        attributes 'Main-Class': 'pl.adeks.simplegame.Main'
+    }
+    archiveBaseName.set('3DSpaceGame')
+    //destinationDirectory.set(file("D:/NexMC/NexMC- NEW VERSION/plugins"))
+}
