@@ -2,7 +2,7 @@ package pl.adeks.simplegame.map.location;
 
 import pl.adeks.simplegame.math.Vector;
 
-public class DoubleLocation {
+public class DoubleLocation implements Cloneable {
     private double x;
     private double y;
     private double z;
@@ -42,5 +42,20 @@ public class DoubleLocation {
                 ", y=" + this.y +
                 ", z=" + this.z +
                 '}';
+    }
+
+    @Override
+    public DoubleLocation clone() {
+        try {
+            return (DoubleLocation) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if(!(obj instanceof final DoubleLocation location)) return false;
+        return this.x == location.x && this.y == location.y && this.z == location.z;
     }
 }

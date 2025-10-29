@@ -39,8 +39,8 @@ public class Vector implements Cloneable {
         return this.fastCos(x - this.PI / 2);
     }
     public double fastCos(double x) { // Native functions like Math.cos, Math.sin are slow
-        x = (x + this.PI / 2) % (2 * this.PI) - this.PI / 2;
         if(x < 0) x = -x;
+        x = (x + this.PI / 2) % (2 * this.PI) - this.PI / 2;
         int scal = 1;
         if(x > this.PI / 2) {
             scal = -1;
@@ -76,7 +76,7 @@ public class Vector implements Cloneable {
         //this.x = Math.sin(pitch) * Math.cos(yaw);
         //this.y = Math.sin(pitch) * Math.sin(yaw);
         //this.z = Math.cos(pitch);
-
+        //to fix
         final double fastSin = this.fastSin(pitch);
         this.x = fastSin * this.fastCos(yaw);
         this.y = fastSin * this.fastSin(yaw);

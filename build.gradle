@@ -23,5 +23,4 @@ shadowJar {
         attributes 'Main-Class': 'pl.adeks.simplegame.Main'
     }
     archiveBaseName.set('3DSpaceGame')
-    //destinationDirectory.set(file("D:/NexMC/NexMC- NEW VERSION/plugins"))
 }

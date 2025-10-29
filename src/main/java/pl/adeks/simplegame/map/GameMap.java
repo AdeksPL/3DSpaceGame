@@ -14,7 +14,9 @@ import pl.adeks.simplegame.map.elements.Block;
 
 public class GameMap {
 
-    private final Object2ObjectMap<Location, Block> map = new Object2ObjectOpenHashMap<>();;
+    private final Object2ObjectMap<Location, Block> map = new Object2ObjectOpenHashMap<>();
+    private int maxBlockZ = Integer.MIN_VALUE;
+    private int minBlockZ = Integer.MAX_VALUE;
 
     public GameMap() {
     }
@@ -23,6 +25,9 @@ public class GameMap {
         return this.map.get(location);
     }
     public void putBlock(final Block block) {
+        this.maxBlockZ = Math.max(this.maxBlockZ, block.getLocation().getZ());
+        this.minBlockZ = Math.min(this.minBlockZ, block.getLocation().getZ());
+        //System.out.println("Max " + this.maxBlockZ + " min " + this.minBlockZ);
         this.map.put(block.getLocation(), block);
     }
 
@@ -65,11 +70,11 @@ public class GameMap {
 
     //very slow
     public void generateGaussChunk() {
-        final int chunkXMax = 25;
-        final int chunkYMax = 25;
+        final int chunkXMax = 100;
+        final int chunkYMax = 100;
 
         final Random r = new Random();
-        final int size = 1 + r.nextInt(20);
+        final int size = 1 + r.nextInt((int) Math.pow((chunkYMax + chunkYMax) / 2., 1.2));
         final List<Location> gaussLocations = new ArrayList<>();
         for(int i = 0; i < size; i++) {
             gaussLocations.add(new Location(r.nextInt(chunkYMax), 1 + r.nextInt(3) , r.nextInt(chunkYMax)));
@@ -94,5 +99,13 @@ public class GameMap {
 
     private double gauss(final double sigmaX, final double sigmaY, final double locExtremumX, final double locExtremumY, final int x, final int y) {
         return  Math.exp(- 1./2. * (Math.pow((x - locExtremumX) / sigmaX, 2) + Math.pow((y - locExtremumY) / sigmaY, 2)));
+    }
+
+    public int getMaxBlockZ() {
+        return this.maxBlockZ;
+    }
+
+    public int getMinBlockZ() {
+        return this.minBlockZ;
     }
 }

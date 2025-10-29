@@ -16,6 +16,8 @@ public class SimpleGame extends JFrame {
     private final GameMap gameMap;
     private final MoveListener moveListener;
     private Thread gameThread;
+    private Camera oldCamera;
+    private DoubleLocation oldLocation;
 
     private static SimpleGame inst;
     private boolean enabled;
@@ -23,7 +25,7 @@ public class SimpleGame extends JFrame {
     public SimpleGame() {
         inst = this;
         this.enabled = true;
-        this.player = new Player(new DoubleLocation(5.0, 5.0, 5.0), new Camera());
+        this.player = new Player(new DoubleLocation(5.0, 5.0, -15.0), new Camera());
         this.moveListener = new MoveListener(this);
         this.gameMap = new GameMap();
         this.gameMap.generateGaussChunk();
@@ -45,10 +47,16 @@ public class SimpleGame extends JFrame {
         this.gameThread = new Thread(() -> {
             while(true) {
                 final long time = System.nanoTime();
-                this.gamePanel.render();
-                this.gamePanel.repaint();
+                if(!this.player.getCamera().equals(this.oldCamera) || !this.player.getLocation().equals(this.oldLocation)) {
+                    this.gamePanel.render();
+                    this.gamePanel.repaint();
+                }
+                this.oldCamera = this.player.getCamera().clone();
+                this.oldLocation = this.player.getLocation().clone();
                 this.moveListener.onMove(this.player);
-                System.out.println(this.player.getLocation());
+
+                final long loopTime = (System.nanoTime() - time);
+                if(loopTime > 200000) System.out.println(loopTime);
             }
         });
         this.gameThread.start();

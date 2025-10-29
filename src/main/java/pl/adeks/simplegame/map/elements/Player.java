@@ -40,4 +40,5 @@ public class Player {
                 ", standardVector=" + this.standardVector +
                 '}';
     }
+
 }

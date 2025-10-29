@@ -2,7 +2,7 @@ package pl.adeks.simplegame.map.elements.camera;
 
 import pl.adeks.simplegame.math.Vector;
 
-public class Camera {
+public class Camera implements Cloneable {
 
     private double cameraYaw = 0;
     public double cameraRelativePitch = 0;
@@ -22,7 +22,6 @@ public class Camera {
         this.cameraYaw += yaw;
         this.cameraRelativePitch += pitch;
     }
-
 
     public Vector getPlaneX() {
         return new Vector(0, 0, 0).setDirection(Math.PI / 2, this.cameraYaw).multiply(0.66);
@@ -46,5 +45,20 @@ public class Camera {
                 "cameraYaw=" + this.cameraYaw +
                 ", cameraRelativePitch=" + this.cameraRelativePitch +
                 '}';
+    }
+
+    @Override
+    public Camera clone() {
+        try {
+            return (Camera) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if(!(obj instanceof final Camera camera)) return false;
+        return this.cameraYaw == camera.cameraYaw && this.cameraRelativePitch == camera.cameraRelativePitch;
     }
 }
